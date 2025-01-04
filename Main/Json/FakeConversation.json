@@ -1,0 +1,275 @@
+[
+  {
+    "id": 1,
+    "fname": "Lahoucine",
+    "lname": "",
+    "conversation": [
+      {
+        "key": 1,
+        "sender": "you",
+        "message": "Slaaam Brahim, kif dayr? 😊",
+        "time": "18:26"
+      },
+      {
+        "key": 2,
+        "sender": "Brahim",
+        "message": "Slaaam Lahoucine! Labas, ghir twlit mn service. W nta?",
+        "time": "18:27"
+      },
+      {
+        "key": 3,
+        "sender": "you",
+        "message": "Nsameh, daba ghir khlas. Wach 3ndk chi plans f had l3shiya?",
+        "time": "18:28"
+      },
+      {
+        "key": 4,
+        "sender": "Brahim",
+        "message": "Mmm, mab9ash 3ndy 7aja, kanfكر nshof chi film. Wach kayn chi 7aja zwin?",
+        "time": "18:29"
+      },
+      {
+        "key": 5,
+        "sender": "you",
+        "message": "Ash no3 action? Wla thriller, yla bghiti shi tension? 😜",
+        "time": "18:30"
+      },
+      {
+        "key": 6,
+        "sender": "Brahim",
+        "message": "Chouft, mzyan! Ghadi n9llb 3la chi film. W nta, ash katdir?",
+        "time": "18:31"
+      },
+      {
+        "key": 7,
+        "sender": "you",
+        "message": "Nji n7km chi spazem, n9llb 3la inspiration 😂. T7b tsala m3aya?",
+        "time": "18:32"
+      },
+      {
+        "key": 8,
+        "sender": "Brahim",
+        "message": "Haha, mazal ma3raftch wach ndir! Bssa7a o raha, w ghadi n3rf ila kant wa9t! 😄",
+        "time": "18:33"
+      },
+      {
+        "key": 9,
+        "sender": "you",
+        "message": "Ok, n9lk fi l7isab! Hada perfect.",
+        "time": "18:34"
+      }
+    ],
+    "img": "https://i.pravatar.cc/300?img=3",
+    "isViewd": false
+  },
+  {
+    "id": 2,
+    "fname": "Med",
+    "lname": "cheabi",
+    "conversation": [
+      {
+        "key": 1,
+        "sender": "you",
+        "message": "Slaaam Med, kif dayr? 😂",
+        "time": "12:14"
+      },
+      {
+        "key": 2,
+        "sender": "Med",
+        "message": "Khkhkhkh!",
+        "time": "12:15"
+      },
+      {
+        "key": 3,
+        "sender": "you",
+        "message": "Haha, rah nta f mood zwin had nhar! Ash katsm3?",
+        "time": "12:16"
+      },
+      {
+        "key": 4,
+        "sender": "Med",
+        "message": "Shft video zwin, ghadi nsift lik. 😂",
+        "time": "12:17"
+      },
+      {
+        "key": 5,
+        "sender": "you",
+        "message": "Siftih lia, ghadi n7taj na9r3 l7keya b ghira 😆",
+        "time": "12:18"
+      },
+      {
+        "key": 6,
+        "sender": "Med",
+        "message": "Here it is! 🤣",
+        "time": "12:19"
+      },
+      {
+        "key": 7,
+        "sender": "you",
+        "message": "😂 Hadi katchouf! Dayman katsm3 l7keyat zwinin!",
+        "time": "12:20"
+      }
+    ],
+    "img": "https://i.pravatar.cc/300?img=4",
+    "isViewd": true
+  },
+  {
+    "id": 3,
+    "fname": "Mohcen",
+    "lname": "dev 204",
+    "conversation": [
+      {
+        "key": 1,
+        "sender": "you",
+        "message": "Slaaam Mohcen, kif dayra had nhar? 😅",
+        "time": "12:13"
+      },
+      {
+        "key": 2,
+        "sender": "Mohcen",
+        "message": "La khliha tal reda.",
+        "time": "12:14"
+      },
+      {
+        "key": 3,
+        "sender": "you",
+        "message": "Hahaha, kulshi b3da mn l7wayj dialk, wach katsm3 3la chi projet jdod?",
+        "time": "12:15"
+      },
+      {
+        "key": 4,
+        "sender": "Mohcen",
+        "message": "Daba kan7awel nsali mn chi 7wayj, mashi 7aja kbira.",
+        "time": "12:16"
+      },
+      {
+        "key": 5,
+        "sender": "you",
+        "message": "Chouf, shno kayna jdida li katgdir tdir?",
+        "time": "12:17"
+      },
+      {
+        "key": 6,
+        "sender": "Mohcen",
+        "message": "Bghit ncode shwiya, n9ra shwiya, b7al dyma!",
+        "time": "12:18"
+      },
+      {
+        "key": 7,
+        "sender": "you",
+        "message": "Khassek t3awnni fi coding! Fih chi hwayj jadidin!",
+        "time": "12:19"
+      }
+    ],
+    "img": "https://i.pravatar.cc/300?img=6",
+    "isViewd": false
+  },
+  {
+    "id": 4,
+    "fname": "Mohcen ait ahmed",
+    "lname": "dev digital full stack 204",
+    "conversation": [
+      {
+        "key": 1,
+        "sender": "you",
+        "message": "Slaaam Mohcen, kif ddayera?",
+        "time": "12:13"
+      },
+      {
+        "key": 2,
+        "sender": "Mohcen",
+        "message": "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "time": "12:14"
+      },
+      {
+        "key": 3,
+        "sender": "you",
+        "message": "Ah, bghit n3rf  wach bghiti ta7rrk keyboard wla kayn chi moshkil? 😂",
+        "time": "12:15"
+      },
+      {
+        "key": 4,
+        "sender": "Mohcen",
+        "message": "Hahaha, ghir kantest kayn keyboard! Kulshi mzyan!",
+        "time": "12:16"
+      },
+      {
+        "key": 5,
+        "sender": "you",
+        "message": "Haha, ma3raftch wach wld ddajaja bdaik 😂",
+        "time": "12:17"
+      },
+      {
+        "key": 6,
+        "sender": "Mohcen",
+        "message": "Kulshi bikhir, w nta? F balek ti! 😅",
+        "time": "12:18"
+      },
+      {
+        "key": 7,
+        "sender": "you",
+        "message": "Ana bsa7a o raha, kayn shwiya dyal coding wshi t3limat jdod!",
+        "time": "12:19"
+      }
+    ],
+    "img": "",
+    "isViewd": false
+  },
+  {
+    "id": 5,
+    "fname": "Ahmed",
+    "lname": "Elhadj",
+    "conversation": [
+      {
+        "key": 1,
+        "sender": "you",
+        "message": "Slaaam Ahmed, kif ddayera?",
+        "time": "19:40"
+      },
+      {
+        "key": 2,
+        "sender": "Ahmed",
+        "message": "Labas! Bghit nt7awel m3a web technologies jdod. W nta?",
+        "time": "19:41"
+      },
+      {
+        "key": 3,
+        "sender": "you",
+        "message": "Ana 7ta, kat9ra mzyan 3la frameworks web. Ashkatbdl f hadchi?",
+        "time": "19:42"
+      },
+      {
+        "key": 4,
+        "sender": "Ahmed",
+        "message": "Ana fi WebAssembly o CSS tricks jdod.",
+        "time": "19:43"
+      },
+      {
+        "key": 5,
+        "sender": "you",
+        "message": "WebAssembly ghadi ts7ah! Wlash mn wahd l9bel?",
+        "time": "19:44"
+      },
+      {
+        "key": 6,
+        "sender": "Ahmed",
+        "message": "Eh, ghadi tnfa3 3la chi tasks! Mazal kanjrb fih.",
+        "time": "19:45"
+      },
+      {
+        "key": 7,
+        "sender": "you",
+        "message": "Dirna chi project m3a WebAssembly, n3rfu ktar!",
+        "time": "19:46"
+      },
+      {
+        "key": 8,
+        "sender": "Ahmed",
+        "message": "Hadchi zwin, n9dro nkhdmo 3la chi projet soon!",
+        "time": "19:47"
+      }
+    ],
+    "img": "",
+    "isViewd": false
+  }
+]

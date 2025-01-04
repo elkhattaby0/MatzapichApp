@@ -1,0 +1,34 @@
+{
+    "app" : {
+        "AppName" : "MatZapich"
+    },
+    "Auth" : {
+        "SignIn" : {
+            "header": "Welcome Back!",
+            "labelEmail": "Email Address",
+            "Email" : "email",
+            "PlaceholderEmail": "",
+            "labelPassword": "Password",
+            "Password" : "password",
+            "PlaceholderPassword": "",
+            "ButtonSignIn": "Log In",
+            "textSingUp": "Don't have an account?",
+            "ButtonSignUp": "Sign Up",
+            "ButtonForgotPassword": "Forgot Password?"
+        },
+        "SignUp" : {
+            "header": "Create a New Account",
+            "labelName": "Name",
+            "PlaceholderName": "John Doe",
+            "labelEmail": "Email Address",
+            "PlaceholderEmail": "jhon.doe@example.com",
+            "labelPassword": "Password",
+            "labelConfirmPassword": "Confirm Password",
+            "ButtonSignUp": "Sign Up",
+            "textSingIn": "Already have an account?",
+            "ButtonSignIn": "Sign In"
+        }
+    },
+    "account" : {}
+
+}

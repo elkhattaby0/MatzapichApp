@@ -1,0 +1,28 @@
+Matzapich/
+│
+├── Assist/                       
+│
+├── Json/                         
+│
+├── Layouts/                       
+│   ├── Chats/                     
+│   │   ├── Sections/              
+│   │   │   ├── BodySection.js     
+│   │   │   ├── FooterSection.js   
+│   │   │   ├── HeaderSection.js   
+│   │   └── HomeLayout.js          
+│   │
+│   ├── Details/                   
+│   │   ├── Sections/              
+│   │   │   ├── BodySection.js     
+│   │   │   ├── FooterSection.js   
+│   │   │   ├── HeaderSection.js   
+│   │   └── DetailsLayout.js       
+│   │
+│   └── Navigation.js              
+│
+├── Redux-ToolKit/                 
+│   ├── matzapichSlice.js          
+│   └── store.js                  
+│
+└── App.js                         

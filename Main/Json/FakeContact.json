@@ -1,0 +1,128 @@
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john.doe@gmail.com",
+        "isFollowed": false
+    },
+    {
+        "id": 2,
+        "name": "Jane Smith",
+        "email": "jane.smith@yahoo.com",
+        "isFollowed": true
+    },
+    {
+        "id": 3,
+        "name": "Alice Johnson",
+        "email": "alice.johnson@hotmail.com",
+        "isFollowed": false
+    },
+    {
+        "id": 4,
+        "name": "Bob Brown",
+        "email": "bob.brown@outlook.com",
+        "isFollowed": true
+    },
+    {
+        "id": 5,
+        "name": "Charlie Davis",
+        "email": "charlie.davis@gmail.com",
+        "isFollowed": false
+    },
+    {
+        "id": 6,
+        "name": "Diana Evans",
+        "email": "diana.evans@icloud.com",
+        "isFollowed": true
+    },
+    {
+        "id": 7,
+        "name": "Ethan Harris",
+        "email": "ethan.harris@gmail.com",
+        "isFollowed": false
+    },
+    {
+        "id": 8,
+        "name": "Fiona Green",
+        "email": "fiona.green@yahoo.com",
+        "isFollowed": true
+    },
+    {
+        "id": 9,
+        "name": "George Hill",
+        "email": "george.hill@hotmail.com",
+        "isFollowed": false
+    },
+    {
+        "id": 10,
+        "name": "Hannah King",
+        "email": "hannah.king@outlook.com",
+        "isFollowed": true
+    },
+    {
+        "id": 11,
+        "name": "Ian Lewis",
+        "email": "ian.lewis@gmail.com",
+        "isFollowed": false
+    },
+    {
+        "id": 12,
+        "name": "Julia Martin",
+        "email": "julia.martin@icloud.com",
+        "isFollowed": true
+    },
+    {
+        "id": 13,
+        "name": "Kevin Nelson",
+        "email": "kevin.nelson@gmail.com",
+        "isFollowed": false
+    },
+    {
+        "id": 14,
+        "name": "Laura Owens",
+        "email": "laura.owens@yahoo.com",
+        "isFollowed": true
+    },
+    {
+        "id": 15,
+        "name": "Michael Perez",
+        "email": "michael.perez@hotmail.com",
+        "isFollowed": false
+    },
+    {
+        "id": 16,
+        "name": "Nina Quinn",
+        "email": "nina.quinn@outlook.com",
+        "isFollowed": true
+    },
+    {
+        "id": 17,
+        "name": "Oscar Roberts",
+        "email": "oscar.roberts@gmail.com",
+        "isFollowed": false
+    },
+    {
+        "id": 18,
+        "name": "Paula Scott",
+        "email": "paula.scott@icloud.com",
+        "isFollowed": true
+    },
+    {
+        "id": 19,
+        "name": "Quincy Turner",
+        "email": "quincy.turner@gmail.com",
+        "isFollowed": false
+    },
+    {
+        "id": 20,
+        "name": "Rachel White",
+        "email": "rachel.white@yahoo.com",
+        "isFollowed": true
+    },
+    {
+        "id": 21,
+        "name": "Sam Young",
+        "email": "sam.young@hotmail.com",
+        "isFollowed": false
+    }
+]
