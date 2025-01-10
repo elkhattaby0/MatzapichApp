@@ -1,16 +1,16 @@
-import { Text, View, Platform, StatusBar, TextInput, TouchableOpacity, StyleSheet, ImageBackground, ScrollView } from "react-native";
+import { Text, View, Platform, StatusBar, TextInput, TouchableOpacity, StyleSheet, ImageBackground, ScrollView, ActivityIndicator, Alert } from "react-native";
 import { colors } from "../../Assist/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../../Redux-ToolKit/matzapichSlice";
-import { supabase } from "../../Supabase/supabase";
 import Structure from "../../Json/Structure.json";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../Redux-ToolKit/matzapichSlice";
+import { SignUpApi } from "../../Supabase/supabaseApi";
 
 const Identify = Structure.app; 
 const Main = Structure.Auth.SignUp;
 
-const Inscription = ({ data, handleData, Result }) => {
+const Inscription = ({ data, handleData, Result, loading }) => {
     return (
         <View style={styles.containre}>
             <View
@@ -70,10 +70,13 @@ const Inscription = ({ data, handleData, Result }) => {
             
             <TouchableOpacity
                 onPress={Result}
+                disabled={loading}
             >
-                <Text
-                    style={styles.btn}
-                >{Main.ButtonSignUp}</Text>
+                {
+                    loading ? 
+                    (<ActivityIndicator size="large" color={colors.lightGreen} />) :
+                    (<Text style={styles.btn}>{Main.ButtonSignUp}</Text>)
+                }                
             </TouchableOpacity>
         </View>
     )
@@ -83,8 +86,8 @@ const Inscription = ({ data, handleData, Result }) => {
 const SignUp = () => {
     const navigation = useNavigation();
     const [data, setData] = useState({})
-    const users = useSelector(state=> state.chats.users)
     const dispatch = useDispatch()
+    const { loading, error, currentUser } = useSelector(state=> state.chats)
 
     const handleData = (name, value) => {
         setData(n=> ({
@@ -94,6 +97,7 @@ const SignUp = () => {
     }
 
     const Result = async () => {
+        dispatch(setLoading(true))
         const { name, email, password, repassword } = data;
         if (!name || !email || !password || !repassword) {
             alert('All fields are required.');
@@ -102,40 +106,17 @@ const SignUp = () => {
         if (password !== repassword) {
             alert('Passwords do not match.');
             return;
-        }
-
-        
+        } 
         try {
-            const { data, error } = await supabase.auth.signUp({
-                email,
-                password,
-            })
-            if (error) {
-                alert(`Error: ${error.message}`);
-                return
-            }
-            const userId = data.user?.id
-            const { error: insertError } = await supabase
-                .from('users')
-                .insert([{ id: userId, name, profile_picture_url: null }]);
-
-            if (insertError) {
-                alert(`Error inserting into users table: ${insertError.message}`);
-                return;
-            }
-            
-            if (data.user) {
-                alert('Success! Please check your inbox for email verification.');
-            } else {
-                alert('Sign-up successful, but email verification is required.');
-            }
-        }catch (err) {
-            console.error('Unexpected error during sign-up:', err);
-            alert('An unexpected error occurred. Please try again later.');
-        }
-
-        alert(`Success`);
-        
+            const { signUpData, error } = await SignUpApi(name, email.toLowerCase(), password)
+            if (error) throw new Error(error);
+            Alert.alert('Success', 'User has been signed up successfully!');
+            dispatch(setError(null));
+        } catch (err) {
+            dispatch(setError(err.message));
+        } finally {
+            dispatch(setLoading(false));
+        }        
     }
 
 
@@ -179,10 +160,6 @@ const SignUp = () => {
                 style={{
                     flex: 0.7,
                     width: '80%',
-                    
-                    // alignItems:'center',
-                    // justifyContent: 'space-evenly',
-                    // backgroundColor: 'yellow'
                 }}
             >
                 <Text
@@ -193,12 +170,11 @@ const SignUp = () => {
                         textAlign: 'center',
                         padding: 40,
                         flex: 0.2,
-                        // backgroundColor: 'red'
                     }}
                 >
                     {Main.header}
                 </Text>
-                <Inscription data={data} handleData={handleData} Result={Result} />
+                <Inscription data={data} handleData={handleData} Result={Result} loading={loading} />
                 <View
                     style={{
                         flex: 0.1, 
@@ -238,9 +214,6 @@ const styles = StyleSheet.create({
 
     },
 
-    section: {
-        // backgroundColor: colors.softWhite,
-    },
     label: {
         color: colors.lightGreen,
         fontSize: 18,

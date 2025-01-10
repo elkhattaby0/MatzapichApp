@@ -2,63 +2,38 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-nat
 import { colors } from "../../../Assist/Colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { supabase } from "../../../Supabase/supabase";
 import { addMessages } from "../../../Redux-ToolKit/matzapichSlice";
 import moment from "moment";
 
 const BodySection = (props) => {
-    const Chats = useSelector(state => state.chats.messages);
+    const {loading, error, messages} = useSelector(state => state.chats);
     const [contentHeight, setContentHeight] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-
-
-    const formatMessageTime = (time) => {
-        // const messageDate = moment(time, 'YYYY-MM-DD HH:mm:ss');
-        // const now = moment();
-        // const diffHours = now.diff(messageDate, 'hours');
-        // const diffMinutes = now.diff(messageDate, 'minutes');
-        const now = moment();
-        const dataTime = moment(time, 'YYYY-MM-DD HH:mm:ss')
-        const diff = now.format('YYYY-MM-DD HH:mm:ss') - dataTime
-        return diff
-        // if (diffHours < 24) {
-        //     // if (diffHours > 0) {
-        //     //     return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-        //     // }
-        //     // return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
-        //     // return messageDate.format('HH:mm')
-        //     return (now.format('YYYY-MM-DD HH:mm:ss'))
-        // } else if (diffHours < 48 && messageDate.isSame(now.subtract(1, 'day'), 'day')) {
-        //     return 'Yesterday';
-        // } else {
-        //     return messageDate.format('YYYY-MM-DD');
-        // }
-    };
+    console.log(loading)
+    const formatMessageTime = (lastMessageTime) => {
+        const messageDate = new Date(lastMessageTime);
+        const currentDate = new Date();
+        const messageDay = new Date(messageDate.getFullYear(), messageDate.getMonth(), messageDate.getDate());
+        const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1); 
     
+        if (messageDay.getTime() === today.getTime()) {
+            const hours = messageDate.getHours().toString().padStart(2, "0");
+            const minutes = messageDate.getMinutes().toString().padStart(2, "0");
+            return `${hours}:${minutes}`;
+        } else if (messageDay.getTime() === yesterday.getTime()) {
+            return "Yesterday";
+        } else {
+            const year = messageDate.getFullYear().toString().slice(-2);;
+            const month = (messageDate.getMonth() + 1).toString().padStart(2, "0");
+            const day = messageDate.getDate().toString().padStart(2, "0");
+            return `${month}/${day}/${year}`;
+        }
+    };
 
 
-    useEffect(() => {
-        setIsLoading(true);
-        const fetchMessages = async () => {
-            try {
-                dispatch(addMessages([])); // Clear previous messages
-                if (props.idConversation) {
-                    const { data: messages, error } = await supabase
-                        .from('messages')
-                        .select('*')
-                        .eq('conversation_id', props.idConversation);
-                    if (error) throw error;
-                    dispatch(addMessages(messages));
-                    setIsLoading(false);
-                }
-            } catch (error) {
-                console.error("Error fetching messages:", error.message);
-            }
-        };
 
-        fetchMessages();
-    }, [props.idConversation, dispatch]);
 
     const MsgStyle = (props) => {
         const isYou = props.sender === props.idCurrentUser;
@@ -102,12 +77,12 @@ const BodySection = (props) => {
                             color: colors.white,
                             fontSize: 13,
                             fontWeight: '500',
-                            marginLeft: 9,
-                            top: 8,
+                            // marginLeft: 9,
+                            top: 8,                            
+                            // backgroundColor: 'red'
                         }}
                     >
                         {formatMessageTime(props.time)}
-                        {/* {moment(props.time, 'YYYY-MM-DD HH:mm:ss').format('HH:mm')} */}
                     </Text>
                 </View>
             </View>
@@ -124,10 +99,10 @@ const BodySection = (props) => {
         >
             <View style={{ alignItems: 'center', marginTop: 5 }}>
                 {
-                    isLoading ?
+                    loading ?
                     <ActivityIndicator size="large" color={colors.lightGreen} /> : (
-                    Chats.length > 0 ? (
-                        Chats.map((chat) => (
+                        messages?.length > 0 ? (
+                        messages.map((chat) => (
                             <MsgStyle
                                 key={chat.id}
                                 id={chat.id}

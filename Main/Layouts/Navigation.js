@@ -1,16 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import SignIn from './Authentications/SignIn';
 import SignUp from './Authentications/SignUp';
 import HomeLayout from "../Layouts/Chats/HomeLayout"
 import DetailsLayouts from '../Layouts/Details/DetailsLayouts';
 
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import { store } from '../Redux-ToolKit/store';
-import { useEffect } from 'react';
-import { addCurrnetUser } from '../Redux-ToolKit/matzapichSlice';
+import { useSelector } from 'react-redux';
 import Settings from './Settings/Settings';
 import AddNewContact from './AddNewContact/AddNewContact';
 
@@ -33,19 +29,12 @@ const AppNavigator = () => (
     </AppStack.Navigator>
 );
 
-const Layout = () => {
+const Navigation = () => {
     const isAuthenticated = useSelector(state=> state.chats.currentUser)
     return (
         <NavigationContainer>
             {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
         </NavigationContainer>
-    )
-}
-const Navigation = () => {
-    return (
-        <Provider store={store}>
-            <Layout />
-        </Provider>
     )
 }
 

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { SignUpApi, SignInApi, ReadUsers } from "../Supabase/supabaseApi";
 
 const initialState = {
     chats: [],
@@ -8,7 +9,7 @@ const initialState = {
     messages: [],
     usersByChats: [],
     currentUser: null,
-    loading: 0, 
+    loading: false, // 
     error: null,
 }
 
@@ -16,11 +17,23 @@ export const matzapichSlice = createSlice({
     name: 'chats',
     initialState,
     reducers: {
+        setLoading: (state, action) => {
+            state.loading = action.payload;
+        },
+        setError: (state, action) => {
+            state.error = action.payload;
+        },
+
+
+
         addUser: (state, action) => {
             state.users = action.payload;
         },
         addContact: (state, action) => {
             state.contacts = action.payload;
+        },
+        addConversations: (state, action) => {
+            state.conversations = action.payload
         },
         addCurrnetUser: (state, action)=> {
             state.currentUser = action.payload
@@ -43,5 +56,5 @@ export const matzapichSlice = createSlice({
     }
 })
 
-export const { addChat, addUser, addContact, addCurrnetUser, addMessages, addUsersByChats, logout } = matzapichSlice.actions;
+export const { setLoading, setError, addChat, addUser, addContact, addConversations, addCurrnetUser, addMessages, addUsersByChats, logout } = matzapichSlice.actions;
 export default matzapichSlice.reducer;

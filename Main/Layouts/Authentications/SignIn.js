@@ -2,16 +2,15 @@ import { Text, View, Platform, StatusBar, TextInput, TouchableOpacity, StyleShee
 import { colors } from "../../Assist/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addCurrnetUser, addUser } from "../../Redux-ToolKit/matzapichSlice";
-import { supabase } from "../../Supabase/supabase";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Structure from "../../Json/Structure.json";
+import { useDispatch, useSelector } from "react-redux";
+import { ReadCurrentUser, SignInApi } from "../../Supabase/supabaseApi";
+import { addCurrnetUser, setError, setLoading } from "../../Redux-ToolKit/matzapichSlice";
 
 const Identify = Structure.app; 
 const Main = Structure.Auth.SignIn;
 
-const Inscription = ({ data, handleData, Result, loadingContacted }) => {
+const Inscription = ({ data, handleData, Result, loading }) => {
     
     return (
         <View style={styles.containre}>
@@ -55,9 +54,10 @@ const Inscription = ({ data, handleData, Result, loadingContacted }) => {
             
             <TouchableOpacity
                 onPress={Result}
+                disabled={loading}
             >
                 {
-                    loadingContacted ? 
+                    loading ? 
                     (<ActivityIndicator size="large" color={colors.lightGreen} />) :
                     (
                     <Text
@@ -67,16 +67,14 @@ const Inscription = ({ data, handleData, Result, loadingContacted }) => {
                 }
             </TouchableOpacity>
         </View>
-    )
-
-    
+    )   
 }
 
 const SignIn = () => {
     const navigation = useNavigation();
     const [data, setData] = useState({})
-    const [loadingContacted, setLoadingContacted] = useState(null);
     const dispatch = useDispatch();
+    const { loading, error, currentUser } = useSelector(state=> state.chats)
     const handleData = (name, value) => {
         setData(n=> ({
             ...n,
@@ -84,59 +82,37 @@ const SignIn = () => {
         }))
     }
     const Result = async () => {
+        dispatch(setLoading(true))
         const { email, password } = data;
         if (!email || !password) {
             alert('All fields are required.');
             return;
         }
-        setLoadingContacted(true);
         try {
-            const { data: userData, error } = await supabase.auth.signInWithPassword({
-                email,
-                password
-            });
-    
-            if (error) {
-                alert(`Error: ${error.message}`);
-                return;
-            }
-    
-            if (userData?.session?.access_token) {
-                // await AsyncStorage.setItem('userToken', userData.session.access_token);
-                // const token = await AsyncStorage.getItem('userToken')
-                // dispatch(addCurrnetUser(token));
-    
-                const { data, err } = await supabase
-                    .from('users')
-                    .select('*')
-                    .eq('id', userData.user.id)
-                if(err) {
-                    alert(`Error: ${err.message}`);
-                    return;
-                }
-                
+            const { userData, error } = await SignInApi(email.toLowerCase(), password);
+            if(error) throw new Error(error)
+            try {
+                const { currentUser, error: userError } = await ReadCurrentUser(userData.user.id)
+                if(userError) throw new Error(userError)
                 dispatch(addCurrnetUser({
-                    id: data[0].id,
-                    name: data[0].name, 
-                    email: userData.user.email, 
-                    about: data[0].about,
-                    img: data[0].profile_picture_url}));
-                // try {
-                //     insertUserData(userData.user.id, userData.user.name, userData.user.email, userData.user.profile_picture_url);
-                // } catch (error) {
-                //     console.error('Error:', error); 
-                // }
+                    id: currentUser[0].id,
+                    name: currentUser[0].name,
+                    email: userData.user.email,
+                    about: currentUser[0].about,
+                    img: currentUser[0].profile_picture_url
+                }))
                 
-    
-            } else {
-                alert('User does not exist.');
+                
+            } catch (error) {
+                dispatch(setError(error.message))
             }
-        } catch (e) {
-            alert(`Unexpected error: ${e.message}`);
+            dispatch(setError(null));
+        } catch (err) {
+            dispatch(setError(err.message))
+        } finally {
+            dispatch(setLoading(false))
         }
-        finally {
-            setLoadingContacted(null);
-        }
+        
     }
 
     return (
@@ -195,7 +171,7 @@ const SignIn = () => {
                 >
                     {Main.header}
                 </Text>
-                <Inscription data={data} handleData={handleData} Result={Result} loadingContacted={loadingContacted} />
+                <Inscription data={data} handleData={handleData} Result={Result} loading={loading} />
                 <View
                     style={{
                         flex: 0.1, 

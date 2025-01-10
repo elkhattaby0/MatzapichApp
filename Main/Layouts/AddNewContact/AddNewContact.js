@@ -3,58 +3,37 @@ import { colors } from "../../Assist/Colors";
 import Header from "./Sections/Header";
 import Body from "./Sections/Body";
 import { useDispatch, useSelector } from "react-redux";
-// import { useEffect } from "react";
-// import { supabase } from "../../Supabase/supabase";
-// import { addUser, addContact } from "../../Redux-ToolKit/matzapichSlice";
+import { useEffect } from "react";
+import { ReadContactsByCurrentUser, ReadUsers } from "../../Supabase/supabaseApi";
+import { addContact, addUser, setLoading } from "../../Redux-ToolKit/matzapichSlice";
 
 const AddNewContact = () => {
     const dispatch = useDispatch();
+    const { loading, error, currentUser, contacts, users } = useSelector(state => state.chats);
 
-    const users = useSelector(state => state.chats.users);
-    const contacts = useSelector(state => state.chats.contacts);
-    const currentUser = useSelector(state => state.chats.currentUser);
-
-    // useEffect(() => {
-    //     if (users.length === 0) {
-    //         const fetchUsers = async () => {
-    //             try {
-    //                 let { data: users, error } = await supabase
-    //                     .from('users')
-    //                     .select('*');
-    //                 if (error) throw error;
-    //                 dispatch(addUser(users));
-    //             } catch (error) {
-    //                 console.error("Error fetching users:", error.message);
-    //             }
-    //         };
-    //         fetchUsers();
-    //     }
-
-    //     if (contacts.length === 0) {
-    //         const fetchContact = async () => {
-    //             try {
-    //                 let { data: contacts, error } = await supabase
-    //                     .from('contacts')
-    //                     .select('*')
-    //                     .eq("user_id", currentUser?.id);
-                        
-
-    //                 if (error) throw error;
-    //                 dispatch(addContact(contacts)); 
-    //             } catch (error) {
-    //                 console.error("Error fetching contacts:", error.message);
-    //             }
-    //         };
-    //         fetchContact();
-            
-    //     }
-    // }, [dispatch, users.length, contacts.length]);
-
+    useEffect(()=> {
+        const fetchContactsByCurrentUser = async () => {
+            dispatch(setLoading(true))
+            try {
+                const { users } = await ReadUsers()
+                const { contactsData, error } = await ReadContactsByCurrentUser(currentUser?.id)
+                if(error) throw new Error(error)
+                dispatch(addUser(users))
+                dispatch(addContact(contactsData))
+            } catch (error) {
+                console.error("Error in ReadContactsByCurrentUser:", error.message);
+            } finally {
+                dispatch(setLoading(false))
+            }
+        }
+        fetchContactsByCurrentUser()
+    }, [currentUser?.id])
+    
     return (
         <View style={styles.container}>
             <Header />
             <Body 
-                users={users} contacts={contacts} currentUser={currentUser}
+                currentUser={currentUser?.id} 
             />
         </View>
     );

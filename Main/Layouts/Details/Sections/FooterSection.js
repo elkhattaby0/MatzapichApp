@@ -3,22 +3,16 @@ import { colors } from "../../../Assist/Colors";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { addMessages } from "../../../Redux-ToolKit/matzapichSlice";
-// import moment from "moment";
-import { supabase } from "../../../Supabase/supabase";
+import { InsertMessagesByData, ReadMessagesByConversationID } from "../../../Supabase/supabaseApi";
 
 const FooterSection = (props) => {
-    // const Chats = useSelector(state => state.chats.m); 
     const dispatch = useDispatch();
-
-    // const filteredConversation = Chats.filter(n => n.id === props.itemId);
-
     const [chat, setChat] = useState({
         message: "",  
     });
 
     const handleSubmit = (name, value) => {
         setChat(prevValues => {
-            // const newKey = Date.now(); 
 
             return {
                 ...prevValues,
@@ -35,23 +29,19 @@ const FooterSection = (props) => {
             return; 
         } else {
             try {
-                const { data, error } = await supabase
-                .from('messages')
-                .insert([chat])
-                .select()
-                if (error) throw error;
-                
-                let { data: messages, error: err } = await supabase
-                .from('messages')
-                .select('*')
-                .eq('conversation_id', props.idConversation)
-                if (err) throw err;
-                dispatch(addMessages(messages));
-                setChat("");
-
+                setChat({message: ""})
+                const { insertData, error } = await InsertMessagesByData(chat)
+                if (error) throw new Error (error)
             } catch (error) {
-                console.error('Error sending message:', error.message);
+                console.error("Error in InsertMessagesByData:", error.message);
             }
+            try {
+                const { messages, error } = await ReadMessagesByConversationID(props.idConversation);
+                if (error) throw new Error(`Error fetching messages: ${error}`);
+                dispatch(addMessages(messages));
+            } catch (err) {
+                console.error("Error in fetchMessagesByConversationID:", err.message);
+            } 
         }
 
         
@@ -134,7 +124,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        // backgroundColor:"red",
         marginTop: 10
     },
     img: {

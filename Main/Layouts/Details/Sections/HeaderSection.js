@@ -40,7 +40,7 @@ const HeaderSection = (props) => {
                 >
                     <Text
                         style={{color: colors.white, fontSize: 24, fontWeight: 600, marginLeft:8}}
-                    >{(props.name).slice(0,25)}</Text>
+                    >{(props?.name).slice(0,25)}</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.headerRightSide}>

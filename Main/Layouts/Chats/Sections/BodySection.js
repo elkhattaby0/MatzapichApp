@@ -1,14 +1,15 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, TouchableWithoutFeedback, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, TouchableWithoutFeedback, ScrollView } from "react-native";
 import { colors } from "../../../Assist/Colors";
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { supabase } from "../../../Supabase/supabase";
-import { addCurrnetUser, logout } from "../../../Redux-ToolKit/matzapichSlice";
+import {logout } from "../../../Redux-ToolKit/matzapichSlice";
+import { SignOut } from "../../../Supabase/supabaseApi";
 
-const BodySection = ({ setIsToggleClosed, isToggleClosed, users, contacts, currentUser })=> {  
+const BodySection = ({ setIsToggleClosed, isToggleClosed, currentUserId})=> {  
     const navigation = useNavigation();
     const dispatch = useDispatch();
+    const { loading, error, conversations } = useSelector(state=> state.chats)
+    
     const CutText = (text) => {
         const x = 47;
         if(text.length >= x) {
@@ -17,12 +18,30 @@ const BodySection = ({ setIsToggleClosed, isToggleClosed, users, contacts, curre
             return text;
         }
     }
-    const getData = async () => {
-        // const userSession = await AsyncStorage.getItem('user');
-        // const session = JSON.parse(userSession)
-        // console.log('Full Session => ', userSession);
-    }
-    // getData()
+    const formatMessageTime = (lastMessageTime) => {
+        const messageDate = new Date(lastMessageTime);
+        const currentDate = new Date();
+        const messageDay = new Date(messageDate.getFullYear(), messageDate.getMonth(), messageDate.getDate());
+        const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1); 
+    
+        if (messageDay.getTime() === today.getTime()) {
+            const hours = messageDate.getHours().toString().padStart(2, "0");
+            const minutes = messageDate.getMinutes().toString().padStart(2, "0");
+            return `${hours}:${minutes}`;
+        } else if (messageDay.getTime() === yesterday.getTime()) {
+            return "Yesterday";
+        } else {
+            const year = messageDate.getFullYear().toString().slice(-2);;
+            const month = (messageDate.getMonth() + 1).toString().padStart(2, "0");
+            const day = messageDate.getDate().toString().padStart(2, "0");
+            return `${month}/${day}/${year}`;
+        }
+    };
+    
+    
+
     const PickerHeader = () => {        
         return (
             <View style={{
@@ -54,31 +73,11 @@ const BodySection = ({ setIsToggleClosed, isToggleClosed, users, contacts, curre
             <TouchableOpacity
                 onPress={async()=> {
                     try {
-
-                        const { error } = await supabase.auth.signOut();
-                        if (error) {
-                            console.error('Error during sign out:', error.message);
-                            alert('Failed to log out. Please try again.');
-                            return;
-                        }
-            
-                        await AsyncStorage.removeItem('userToken');
-                        await AsyncStorage.clear();
+                        const { error } = await SignOut()
+                        if(error) throw new Error(error)
                         dispatch(logout())
-                        dispatch(addCurrnetUser(null));
-                        
-                        setTimeout(() => {
-                            navigation.dispatch(
-                                CommonActions.reset({
-                                    index: 0,
-                                    routes: [{ name: 'SignIn' }], 
-                                })
-                            );
-                        },100)
-                        setIsToggleClosed(!isToggleClosed) 
-                    } catch (e) {
-                        console.error('Unexpected error during logout:', e.message);
-                        alert('An unexpected error occurred during logout.');
+                    } catch (error) {
+                        return;
                     }
                 }}
             ><Text style={styles.stylePicker}>Log Out</Text></TouchableOpacity>
@@ -92,45 +91,21 @@ const BodySection = ({ setIsToggleClosed, isToggleClosed, users, contacts, curre
             <TextInput 
                 style={styles.search}
                 multiline={true}
-                placeholder="&#127940; Search"
+                placeholder="🔍 Search"
                 placeholderTextColor={colors.white}
             />
             
             {
-                users.filter(user => contacts.filter(contact => contact?.contact_id === user?.id ).length > 0) 
+                conversations
                 .map(n=> (
                 <TouchableWithoutFeedback
-                    key={n.id} 
-                    onPress={ async ()=> {           
-                        try {
-                            let { data: conversations, error } = await supabase
-                            .from('conversations')
-                            .select('*')
-                            .or(
-                                `and(user1_id.eq.${currentUser?.id},user2_id.eq.${n.id}),and(user1_id.eq.${n.id},user2_id.eq.${currentUser?.id})`
-                            );
-                            if (error) throw error;
-                            if(conversations.length <= 0) {
-                                try {
-                                    const { data, error } = await supabase
-                                    .from('conversations')
-                                    .insert([
-                                    { "user1_id": currentUser?.id, "user2_id": n.id },
-                                    ])
-                                    .select()
-                                    if(error) throw error;
-                                } catch (error) {
-                                    
-                                }
-                            }
-                        } catch (error) {
-                            console.error('Error fetching conversations:', error.message);
-                        }                               
+                    key={n?.contact_id} 
+                    onPress={ async ()=> {          
                         navigation.navigate('Details', { 
-                            itemId: n.id, 
-                            name: n.name, 
-                            image: n.profile_picture_url,
-                            currentUserId: currentUser?.id
+                            UserId: currentUserId,
+                            ContactId: n?.contact_id,
+                            ContactName: n?.contact_name,
+                            ContactImage: n?.contact_image
                         })
                     }}
                 >
@@ -138,8 +113,8 @@ const BodySection = ({ setIsToggleClosed, isToggleClosed, users, contacts, curre
                     <TouchableOpacity>
                         <Image 
                             source={
-                                n?.profile_picture_url !== null ? 
-                                {uri: n?.profile_picture_url} :
+                                n?.contact_image !== null ? 
+                                {uri: n?.contact_image} :
                                 require("../../../Assist/user.png") 
                             }
                             
@@ -148,24 +123,11 @@ const BodySection = ({ setIsToggleClosed, isToggleClosed, users, contacts, curre
                     </TouchableOpacity>
                     <View style={styles.contentLeft}>
                         <View style={styles.contentLeftTop}>
-                            <Text style={styles.fullname}>{n.name}</Text>
-                            <Text style={styles.time}>22:26</Text>
+                            <Text style={styles.fullname}>{n.contact_name}</Text>
+                            <Text style={styles.time}>{formatMessageTime(n.last_message_time)}</Text>
                         </View>
                         <View style={styles.contentLeftBottom}>
-                            {/* <Image
-                                source={(() => {
-                                    switch (false) {
-                                        case true:
-                                            return require('../../../Assist/read_true.png');
-                                        case false:
-                                            return require('../../../Assist/read_false.png');
-                                        default:
-                                            return null;  
-                                    }
-                                })()}
-                                style={styles.avatar}
-                            /> */}
-                            <Text style={styles.msg}>{CutText("Hey, How are you doing i hope you're well Hey How are you doing i hope you're well")}</Text>
+                            <Text style={styles.msg}>{CutText(n.last_message)}</Text>
                         </View>
                     </View>
                     </View>
@@ -224,7 +186,6 @@ const BodySection = ({ setIsToggleClosed, isToggleClosed, users, contacts, curre
             borderWidth: 4
         }, 
         pikcer: {
-            // display: getIsClosed ? 'flex': 'none',
             display: 'none',
             backgroundColor: colors.black, 
             shadowColor: colors.black, 
@@ -249,10 +210,9 @@ const BodySection = ({ setIsToggleClosed, isToggleClosed, users, contacts, curre
         content: {
             flexDirection:'row', 
             marginTop: 10,
-            // backgroundColor: colors.softWhite,
             borderRadius: 25,
-            borderColor: colors.softWhite,
-            borderWidth: 0.5
+            // borderColor: colors.softWhite,
+            // borderWidth: 0.5
         },
         contentLeft: {
             flex: 1, 
@@ -275,7 +235,7 @@ const BodySection = ({ setIsToggleClosed, isToggleClosed, users, contacts, curre
         time: {
             fontSize: 12, 
             fontWeight: 500, 
-            marginRight: 25,
+            marginRight: 10,
             color: colors.white
         },
         msg: {

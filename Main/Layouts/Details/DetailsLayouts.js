@@ -2,54 +2,59 @@ import { View, StyleSheet, Platform, StatusBar, ImageBackground } from "react-na
 import HeaderSection from "./Sections/HeaderSection";
 import BodySection from "./Sections/BodySection";
 import FooterSection from "./Sections/FooterSection";
-import { supabase } from "../../Supabase/supabase";
-import { addMessages } from "../../Redux-ToolKit/matzapichSlice";
+import { addMessages, setLoading } from "../../Redux-ToolKit/matzapichSlice";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { ReadConversationsByCurrentUser, ReadMessagesByConversationID } from "../../Supabase/supabaseApi";
 
 const DetailsLayouts = ({ route }) => {
-    const { itemId, name, image, currentUserId } = route.params;
-    const [conversations, setConversations] = useState([]);
+    const { UserId, ContactId, ContactName, ContactImage } = route.params;
+    const [conversationId, setConversationId] = useState(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchConversations = async () => {
+            dispatch(setLoading(true));
+            if (!UserId || !ContactId) return;
             try {
-                const { data, error } = await supabase
-                    .from('conversations')
-                    .select('*')
-                    .or(
-                        `and(user1_id.eq.${currentUserId},user2_id.eq.${itemId}),and(user1_id.eq.${itemId},user2_id.eq.${currentUserId})`
-                    );
-                if (error) throw error;
-                setConversations(data);
-            } catch (error) {
-                console.error('Error fetching conversations:', error.message);
-            }
-        };
-
-        fetchConversations();
-    }, [currentUserId, itemId]);
-
-    useEffect(() => {
-        const fetchMessages = async () => {
-            try {
-                dispatch(addMessages([])); // Clear previous messages
-                if (conversations[0]?.id) {
-                    const { data: messages, error } = await supabase
-                        .from('messages')
-                        .select('*')
-                        .eq('conversation_id', conversations[0].id);
-                    if (error) throw error;
-                    dispatch(addMessages(messages));
+                const { conversations, error } = await ReadConversationsByCurrentUser(UserId, ContactId);
+                if (error) {
+                    console.error(`Error fetching conversations: ${error.message}`);
+                    return; 
                 }
-            } catch (error) {
-                console.error("Error fetching messages:", error.message);
+    
+                dispatch(addMessages([]));
+                const firstConversation = conversations[0];
+                if (firstConversation?.id) {
+                    setConversationId(firstConversation.id);
+                    await fetchMessagesByConversationID(firstConversation.id);
+                }
+            } catch (err) {
+                console.error("Error in fetchConversations:", err.message);
+            } finally {
+                dispatch(setLoading(false));
             }
         };
-
-        fetchMessages();
-    }, [conversations, dispatch]);
+    
+        const fetchMessagesByConversationID = async (conversationId) => {
+            try {
+                const { messages, error } = await ReadMessagesByConversationID(conversationId);
+                if (error) {
+                    console.error(`Error fetching messages: ${error.message}`);
+                    return;
+                }
+                dispatch(addMessages(messages));
+            } catch (err) {
+                console.error("Error in fetchMessagesByConversationID:", err.message);
+            } finally {
+                dispatch(setLoading(false));
+            }
+        };
+    
+        fetchConversations();
+    }, [UserId, ContactId]);
+    
+    
 
     return (
         <View style={styles.container}>
@@ -59,21 +64,19 @@ const DetailsLayouts = ({ route }) => {
                 style={{ width: '100%', height: '100%', alignItems: 'center' }}
             >
                 <HeaderSection
-                    idCurrentUser={currentUserId}
-                    idContact={itemId}
-                    idConversation={conversations[0]?.id}
-                    name={name}
-                    img={image}
+                    idCurrentUser={UserId}
+                    idContact={ContactId}
+                    name={ContactName}
+                    img={ContactImage}
                 />
                 <BodySection
-                    idCurrentUser={currentUserId}
-                    idContact={itemId}
-                    idConversation={conversations[0]?.id}
+                    idCurrentUser={UserId}
+                    idContact={ContactId}
                 />
                 <FooterSection
-                    idCurrentUser={currentUserId}
-                    idContact={itemId}
-                    idConversation={conversations[0]?.id}
+                    idCurrentUser={UserId}
+                    idContact={ContactId}
+                    idConversation={conversationId}
                 />
             </ImageBackground>
         </View>

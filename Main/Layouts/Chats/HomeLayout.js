@@ -1,55 +1,36 @@
 import { StyleSheet, View, Platform, StatusBar } from "react-native";
-import { supabase } from "../../Supabase/supabase";
 import HeaderSection from "./Sections/HeaderSection";
 import BodySection from "./Sections/BodySection";
 import FooterSection from "./Sections/FooterSection";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addUser, addContact, addUsersByChats } from "../../Redux-ToolKit/matzapichSlice";
+import { ConversationCurrentUser } from "../../Supabase/supabaseApi";
+import { addConversations } from "../../Redux-ToolKit/matzapichSlice";
 
 
 const HomeLayout = () => {
     const [isToggleClosed, setIsToggleClosed] = useState(false);
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.chats.currentUser);
-    const users =useSelector(state => state.chats.users)
-    const contacts = useSelector(state => state.chats.contacts);
-    const lastChats = useSelector(state=> state.chats.usersByChats)
-    
-    useEffect(() => {
-        if (users.length === 0) {
-            const fetchUsers = async () => {
-                try {
-                    let { data: users, error } = await supabase
-                        .from('users')
-                        .select('*');
-                    if (error) throw error;
-                    dispatch(addUser(users));
-                } catch (error) {
-                    console.error("Error fetching users:", error.message);
-                }
-            };
-            fetchUsers();
-        }
+    const messages = useSelector(state => state.chats.messages);
 
-        if (contacts.length === 0) {
-            const fetchContact = async () => {
-                try {
-                    let { data: contacts, error } = await supabase
-                        .from('contacts')
-                        .select('*')
-                        .eq("user_id", currentUser?.id);
-                    if (error) throw error;
-                    dispatch(addContact(contacts)); 
-                } catch (error) {
-                    // console.error("Error fetching contacts:", error.message);
-                }
-            };
-            fetchContact();
-            
-            
+    useEffect(() => {
+        const fetchConversations = async () => {
+            try {
+                const { conversations, error } = await ConversationCurrentUser(currentUser?.id);
+                if (error) throw new Error(error);
+                dispatch(addConversations(conversations))
+            } catch (err) {
+                console.error("Error fetching conversations:", err.message);
+            }
+        };
+    
+        if (currentUser?.id) {
+            fetchConversations();
         }
-    }, [dispatch, users?.length, contacts?.length]);
+    }, [currentUser?.id,messages]);
+    
+    
 
     return (
         <View style={styles.containre}>
@@ -57,7 +38,7 @@ const HomeLayout = () => {
             <BodySection 
                 isToggleClosed={isToggleClosed} 
                 setIsToggleClosed={setIsToggleClosed} 
-                users={users} contacts={contacts} currentUser={currentUser}
+                currentUserId={currentUser?.id}
             />
             <FooterSection />
         </View>

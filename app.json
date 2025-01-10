@@ -2,7 +2,8 @@
   "expo": {
     "name": "MatzapichApp",
     "slug": "MatzapichApp",
-    "version": "1.0.0",
+    "version": "1.0.3",
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,10 +20,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.eelkhattaby.MatzapichApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e80fd0e1-ee61-4959-937e-0d68635b3f01"
+      }
     }
   }
 }
