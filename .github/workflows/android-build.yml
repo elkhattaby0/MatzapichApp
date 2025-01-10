@@ -21,14 +21,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Add npm global bin to PATH
-        run: echo "$(npm config get prefix)/bin" >> $GITHUB_PATH
-
       - name: Install Expo CLI
         run: npm install -g @expo/cli
 
+      - name: Add npm global bin to PATH
+        run: echo "$(npm config get prefix)/bin" >> $GITHUB_PATH
+
       - name: Verify Expo CLI Installation
-        run: expo --version
+        run: npx expo --version
 
       - name: Build APK
-        run: expo build:android -t apk --no-wait
+        run: npx expo build:android -t apk --no-wait
