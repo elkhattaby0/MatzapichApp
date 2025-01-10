@@ -3,7 +3,7 @@ name: Build Android APK
 on:
   push:
     branches:
-      - main # يمكنك تغييره إذا كنت تستخدم فرعًا آخر
+      - main
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14" # أو أي نسخة من Node.js التي تحتاجها
+          node-version: "14"
 
       - name: Install dependencies
         run: npm install
