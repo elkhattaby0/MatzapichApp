@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Install Expo CLI
-        run: npm install -g expo-cli
+        run: npm install -g @expo/cli
 
       - name: Build APK
         run: expo build:android -t apk --no-wait
