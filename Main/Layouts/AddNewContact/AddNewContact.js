@@ -1,5 +1,5 @@
 import { View, StyleSheet, Platform, StatusBar } from "react-native";
-import { colors } from "../../Assist/Colors";
+import { colors } from "../../../assets/Colors";
 import Header from "./Sections/Header";
 import Body from "./Sections/Body";
 import { useDispatch, useSelector } from "react-redux";

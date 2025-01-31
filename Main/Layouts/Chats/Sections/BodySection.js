@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, TouchableWithoutFeedback, ScrollView } from "react-native";
-import { colors } from "../../../Assist/Colors";
+import { colors } from "../../../../assets/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import {logout } from "../../../Redux-ToolKit/matzapichSlice";
@@ -115,7 +115,7 @@ const BodySection = ({ setIsToggleClosed, isToggleClosed, currentUserId})=> {
                             source={
                                 n?.contact_image !== null ? 
                                 {uri: n?.contact_image} :
-                                require("../../../Assist/user.png") 
+                                require("../../../../assets/user.png") 
                             }
                             
                             style={styles.image}  
@@ -151,7 +151,7 @@ const BodySection = ({ setIsToggleClosed, isToggleClosed, currentUserId})=> {
                     justifyContent: 'center'
                     }}>
                         <Image
-                            source={require('../../../Assist/contact.png')}
+                            source={require('../../../../assets/contact.png')}
                             style={{
                                 height: 28,
                                 width: 28,

@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Text, Image, StyleSheet, TextInput } from "react-native";
-import { colors } from "../../../Assist/Colors";
+import { colors } from "../../../../assets/Colors";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { addMessages } from "../../../Redux-ToolKit/matzapichSlice";
@@ -63,7 +63,7 @@ const FooterSection = (props) => {
                     }}>
                         <TouchableOpacity>
                             <Image
-                                source={require("../../../Assist/sticker.png")}
+                                source={require("../../../../assets/sticker.png")}
                                 style={{ height: 20, width: 20 }}
                             />
                         </TouchableOpacity>
@@ -83,13 +83,13 @@ const FooterSection = (props) => {
                         />
                         <TouchableOpacity>
                             <Image
-                                source={require("../../../Assist/attach.png")}
+                                source={require("../../../../assets/attach.png")}
                                 style={{ height: 22, width: 22 }}
                             />
                         </TouchableOpacity>
                         <TouchableOpacity>
                             <Image
-                                source={require("../../../Assist/camera2.png")}
+                                source={require("../../../../assets/camera2.png")}
                                 style={{ height: 22, width: 22, marginLeft: 10 }}
                             />
                         </TouchableOpacity>
@@ -107,7 +107,7 @@ const FooterSection = (props) => {
                         onPress={Result} 
                     >
                         <Image
-                            source={require("../../../Assist/send.png")}
+                            source={require("../../../../assets/send.png")}
                             style={{ height: 18, width: 18 }}
                         />
                     </TouchableOpacity>

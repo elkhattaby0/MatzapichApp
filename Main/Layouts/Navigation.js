@@ -13,6 +13,8 @@ import AddNewContact from './AddNewContact/AddNewContact';
 const AuthStack = createStackNavigator();
 const AppStack = createStackNavigator();
 
+// import { Text, View } from 'react-native';
+
 const AuthNavigator = () => (
     <AuthStack.Navigator initialRouteName="SignIn">
         <AuthStack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
@@ -36,6 +38,19 @@ const Navigation = () => {
             {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
         </NavigationContainer>
     )
+    // return (
+    //     <View style={{
+    //         flex: 1,
+    //         justifyContent: 'center',
+    //         alignItems: 'center'
+    //     }}>
+    //         <Text style={{
+    //             fontSize:50,
+    //             fontWeight: 700
+    //         }}>MatZapich</Text>
+    //         <Text>Version: 12-01-2025 19:05</Text>
+    //     </View>  
+    // )
 }
 
 export default Navigation;

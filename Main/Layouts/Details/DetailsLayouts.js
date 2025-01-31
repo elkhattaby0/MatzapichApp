@@ -59,7 +59,7 @@ const DetailsLayouts = ({ route }) => {
     return (
         <View style={styles.container}>
             <ImageBackground
-                source={require('../../Assist/background MatZapich.jpeg')}
+                source={require('../../../assets/background MatZapich.jpeg')}
                 resizeMode="cover"
                 style={{ width: '100%', height: '100%', alignItems: 'center' }}
             >

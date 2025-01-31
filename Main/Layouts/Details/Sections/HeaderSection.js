@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
-import { colors } from "../../../Assist/Colors"
+import { colors } from "../../../../assets/Colors"
 import { useNavigation } from "@react-navigation/native";
 
 const HeaderSection = (props) => {
@@ -18,7 +18,7 @@ const HeaderSection = (props) => {
                 style={{flexDirection: 'row', alignItems: 'center', width:'50%'}}
             >   
                 <TouchableOpacity style={{marginRight:10}} onPress={()=> navigation.goBack()}>
-                    <Image source={require('../../../Assist/arrow.png')} style={{
+                    <Image source={require('../../../../assets/arrow.png')} style={{
                         width: 20, 
                         height: 20
                     }} />
@@ -28,7 +28,7 @@ const HeaderSection = (props) => {
                         source={
                             props.img !== null ? 
                             {uri: props.img} :
-                            require("../../../Assist/user.png") 
+                            require("../../../../assets/user.png") 
                         }
                         style={styles.image}
                     />
@@ -45,16 +45,16 @@ const HeaderSection = (props) => {
             </View>
             <View style={styles.headerRightSide}>
                 <TouchableOpacity>
-                    <Image source={require('../../../Assist/video.png')} style={styles.camera} />
+                    <Image source={require('../../../../assets/video.png')} style={styles.camera} />
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Image source={require('../../../Assist/call2.png')} style={{
+                    <Image source={require('../../../../assets/call2.png')} style={{
                         width: 20, 
                         height: 20
                     }} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=> isClosed ? setIsClosed(false): setIsClosed(true)}>
-                    <Image source={require('../../../Assist/dots.png')} style={styles.list} />
+                    <Image source={require('../../../../assets/dots.png')} style={styles.list} />
                 </TouchableOpacity>
             </View>
         </View>

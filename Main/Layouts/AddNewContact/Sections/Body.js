@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
 } from "react-native";
-import { colors } from "../../../Assist/Colors";
+import { colors } from "../../../../assets/Colors";
 import { useSelector, useDispatch } from "react-redux";
 import { addContact, setLoading, addMessages } from "../../../Redux-ToolKit/matzapichSlice";
 import {
@@ -30,7 +30,7 @@ const Body = ({ currentUser }) => {
         <View style={styles.contactCard} key={id}>
             <Image
                 style={styles.contactImage}
-                source={require("../../../Assist/user.png")}
+                source={require("../../../../assets/user.png")}
             />
             <Text style={styles.contactName}>{name}</Text>
             <TouchableOpacity

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, StatusBar, Platform, TouchableOpacity, Image, ActivityIndicator, TextInput, Animated, Alert } from "react-native";
-import { colors } from "../../Assist/Colors";
+import { colors } from "../../../assets/Colors"
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import * as ImagePicker from 'expo-image-picker';
@@ -11,8 +11,8 @@ const Settings = () => {
     const [edited, setIsEdited] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [editingId, setEditingId] = useState(null);
-    const [newName, setNewName] = useState(user?.name || ''); // Default value
-    const [newAbout, setNewAbout] = useState(user?.about || ''); // Default value
+    const [newName, setNewName] = useState(user?.name || ''); 
+    const [newAbout, setNewAbout] = useState(user?.about || '');
 
     const slideAnim = useRef(new Animated.Value(200)).current;
 
@@ -49,18 +49,18 @@ const Settings = () => {
                     // Replace this with actual image upload logic
                     // const resp = await ProfileImage(file, user[0]?.id);
                     if (true) { // Simulate success
-                        console.log('Image uploaded successfully:', uri);
+                        // console.log('Image uploaded successfully:', uri);
                         user[0].Image = uri; // Update user image
                     } else {
-                        console.error('Image upload failed');
+                        // console.error('Image upload failed');
                     }
                 } catch (error) {
-                    console.error('Error uploading image:', error.message);
+                    // console.error('Error uploading image:', error.message);
                 } finally {
                     setIsLoading(false);
                 }
             } else {
-                console.log("Image selection cancelled");
+                // console.log("Image selection cancelled");
             }
         }
     };
@@ -186,7 +186,7 @@ const Settings = () => {
     const Info = [
         {
             id: 1,
-            img: require("../../Assist/user1.png"),
+            img: require("../../../assets/user1.png"),
             label: "Name",
             description: user?.name,
             size: 25,
@@ -194,7 +194,7 @@ const Settings = () => {
         },
         {
             id: 2,
-            img: require("../../Assist/about.png"),
+            img: require("../../../assets/about.png"),
             label: "About",
             description: user?.about,
             size: 20,
@@ -202,7 +202,7 @@ const Settings = () => {
         },
         {
             id: 3,
-            img: require("../../Assist/call3.png"),
+            img: require("../../../assets/call3.png"),
             label: "Email",
             description: user?.email,
             size: 25,
@@ -212,11 +212,10 @@ const Settings = () => {
 
     return (
         <View style={styles.container}>
-            {/* Render EditInfo only when editing */}
             {editingId && <EditInfo id={editingId} />}
             <View style={header.header}>
                 <TouchableOpacity onPress={() => navigate.goBack()}>
-                    <Image source={require('../../Assist/arrow.png')} style={header.camera} />
+                    <Image source={require('../../../assets/arrow.png')} style={header.camera} />
                 </TouchableOpacity>
                 <Text style={header.logo}>Profile</Text>
             </View>
@@ -233,7 +232,7 @@ const Settings = () => {
                     ) : (
                         <Image
                             source={user[0]?.Image ? { uri: user[0]?.Image } :
-                                require('../../Assist/user.png')}
+                                require('../../../assets/user.png')}
                             style={{
                                 backgroundColor: colors.grayImg,
                                 height: 160,
@@ -258,7 +257,7 @@ const Settings = () => {
                         }}
                     >
                         <Image
-                            source={require('../../Assist/camera3.png')}
+                            source={require('../../../assets/camera3.png')}
                             style={{
                                 height: 24,
                                 width: 24,
@@ -300,7 +299,7 @@ const Settings = () => {
                                     <TouchableOpacity
                                         onPress={() => {
                                             setIsEdited(true);
-                                            setEditingId(n.id); // Set the current editing ID
+                                            setEditingId(n.id); 
                                         }}
                                         style={{
                                             alignItems: 'center',
@@ -311,7 +310,7 @@ const Settings = () => {
                                         }}
                                     >
                                         <Image
-                                            source={require('../../Assist/edit.png')}
+                                            source={require('../../../assets/edit.png')}
                                             style={{ height: 20, width: 30 }}
                                         />
                                     </TouchableOpacity>

@@ -1,5 +1,5 @@
 import { Text, View, Platform, StatusBar, TextInput, TouchableOpacity, StyleSheet, ImageBackground, ScrollView, ActivityIndicator, Alert } from "react-native";
-import { colors } from "../../Assist/Colors";
+import { colors } from "../../../assets/Colors"
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import Structure from "../../Json/Structure.json";
@@ -140,7 +140,7 @@ const SignUp = () => {
                 }}
             >
                 <ImageBackground
-                    source={require("../../Assist/background MatZapich.jpeg")}
+                    source={require("../../../assets/background MatZapich.jpeg")}
                     resizeMode="cover"
                     style={{width: '100%', height: '100%', alignItems: 'center',justifyContent: 'center',
                         alignContent: 'center', }}

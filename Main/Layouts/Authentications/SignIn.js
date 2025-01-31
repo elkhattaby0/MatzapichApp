@@ -1,5 +1,5 @@
 import { Text, View, Platform, StatusBar, TextInput, TouchableOpacity, StyleSheet, ImageBackground, ScrollView, ActivityIndicator } from "react-native";
-import { colors } from "../../Assist/Colors";
+import { colors } from "../../../assets/Colors"
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import Structure from "../../Json/Structure.json";
@@ -135,7 +135,7 @@ const SignIn = () => {
                 }}
             >
                 <ImageBackground
-                    source={require("../../Assist/background MatZapich.jpeg")}
+                    source={require("../../../assets/background MatZapich.jpeg")}
                     resizeMode="cover"
                     style={{width: '100%', height: '100%', alignItems: '',justifyContent: 'center',
                         alignContent: 'center'}}

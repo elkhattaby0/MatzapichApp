@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { colors } from "../../../Assist/Colors"
+import { colors } from "../../../../assets/Colors"
 
 const HeaderSection = ({ isToggleClosed, setIsToggleClosed }) => {
     return (
@@ -7,10 +7,10 @@ const HeaderSection = ({ isToggleClosed, setIsToggleClosed }) => {
             <Text style={styles.logo}>MatZapich</Text>
             <View style={styles.headerRightSide}>
                 <TouchableOpacity>
-                <Image source={require('../../../Assist/camera.png')} style={styles.camera} />
+                <Image source={require('../../../../assets/camera.png')} style={styles.camera} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=> setIsToggleClosed(!isToggleClosed) }>
-                <Image source={require('../../../Assist/dots.png')} style={styles.list} />
+                <Image source={require('../../../../assets/dots.png')} style={styles.list} />
                 </TouchableOpacity>
             </View>
         </View>

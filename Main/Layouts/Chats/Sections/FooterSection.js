@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
 import FooterBody from "../../../Json/FooterBody.json"
-import { colors } from "../../../Assist/Colors";
+import { colors } from "../../../../assets/Colors";
 import { useNavigation } from "@react-navigation/native";
 
 const FooterSection = () => {
@@ -9,13 +9,13 @@ const FooterSection = () => {
     const getImageSource = (imageName) => {
         switch (imageName) {
             case 'chat.png':
-                return require('../../../Assist/chat.png');
+                return require('../../../../assets/chat.png');
             case 'updates.png':
-                return require('../../../Assist/updates.png');
+                return require('../../../../assets/updates.png');
             case 'group.png':
-                return require('../../../Assist/group.png');
+                return require('../../../../assets/group.png');
             case 'call.png':
-                return require('../../../Assist/call.png');
+                return require('../../../../assets/call.png');
         }
     };
     return (

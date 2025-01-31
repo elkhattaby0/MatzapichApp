@@ -3,7 +3,10 @@
     "name": "MatzapichApp",
     "slug": "MatzapichApp",
     "version": "1.0.3",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,7 +14,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0b1014"
     },
     "ios": {
       "supportsTablet": true
@@ -30,6 +33,7 @@
       "eas": {
         "projectId": "e80fd0e1-ee61-4959-937e-0d68635b3f01"
       }
-    }
+    },
+    "owner": "eelkhattaby"
   }
 }

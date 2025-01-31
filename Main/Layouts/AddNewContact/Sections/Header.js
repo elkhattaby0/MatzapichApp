@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
-import { colors } from '../../../Assist/Colors';
+import { colors } from '../../../../assets/Colors';
 import { useNavigation } from '@react-navigation/native';
 
 const Header = () => {
@@ -8,7 +8,7 @@ const Header = () => {
     return (
         <View style={header.header}>
                 <TouchableOpacity onPress={()=> navigate.goBack()}>
-                <Image source={require('../../../Assist/arrow.png')} style={header.camera} />
+                <Image source={require('../../../../assets/arrow.png')} style={header.camera} />
                 </TouchableOpacity>
             <Text style={header.logo}>Find Friends</Text>
         </View>
